@@ -55,8 +55,20 @@ namespace General
 
         private void OnCellClick(int cellID)
         {
-            Debug.Log("cell ID : " + cellID);
             this.gridHandler.UpdateCellState(cellID, GetCellStateFromPlayerValue(this.players[this.playerTurnIndex].playerValue));
+            
+            EvaluateResult();
+            ChangePlayerTurn();
+        }
+
+        private void EvaluateResult()
+        {
+            
+        }
+
+        private void ChangePlayerTurn()
+        {
+            this.playerTurnIndex = this.playerTurnIndex == 0 ? 1 : 0;
         }
 
         private C.CellState GetCellStateFromPlayerValue(C.PlayerValue playerValue)

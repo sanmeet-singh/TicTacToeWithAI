@@ -55,15 +55,16 @@ namespace General
 
         private void OnCellClick(int cellID)
         {
-            this.gridHandler.UpdateCellState(cellID, GetCellStateFromPlayerValue(this.players[this.playerTurnIndex].playerValue));
+            C.CellState tempState = GetCellStateFromPlayerValue(this.players[this.playerTurnIndex].playerValue);
+            this.gridHandler.UpdateCellState(cellID, tempState);
             
-            EvaluateResult();
+            EvaluateResult(cellID, tempState);
             ChangePlayerTurn();
         }
 
-        private void EvaluateResult()
+        private void EvaluateResult(int cellID, C.CellState playerValue)
         {
-            
+            this.gridHandler.EvaluateResult(cellID, playerValue);
         }
 
         private void ChangePlayerTurn()

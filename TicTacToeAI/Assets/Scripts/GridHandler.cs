@@ -182,16 +182,16 @@ namespace General
 
         #region Bot AI methods
 
-        public struct GridAnalysis
+        public struct GridAnalysisForDefence
         {
             public bool isCellHasEmptySpace;
             public bool isOpponentWinning;
             public int proposedCellID;
         }
 
-        public GridAnalysis GetRowAnalysis(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForDefence GetRowAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
-            GridAnalysis gridAnalysis = new GridAnalysis();
+            GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
             gridAnalysis.isCellHasEmptySpace = IsRowHasEmptySpace(lastUsedCellID);
             
             CheckRow(lastUsedCellID, opponentValue, ref gridAnalysis);
@@ -199,9 +199,9 @@ namespace General
             return gridAnalysis;
         }
 
-        public GridAnalysis GetColumnAnalysis(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForDefence GetColumnAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
-            GridAnalysis gridAnalysis = new GridAnalysis();
+            GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
             gridAnalysis.isCellHasEmptySpace = IsColumnHasEmptySpace(lastUsedCellID);
 
             CheckColumn(lastUsedCellID, opponentValue, ref gridAnalysis);
@@ -209,9 +209,9 @@ namespace General
             return gridAnalysis;
         }
 
-        public GridAnalysis GetLeftTopToRightBottomDiagnolAnalysis(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForDefence GetLeftTopToRightBottomDiagnolAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
-            GridAnalysis gridAnalysis = new GridAnalysis();
+            GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
             gridAnalysis.isCellHasEmptySpace = IsLeftTopToRightBottomDiagnolHasEmptyCell(lastUsedCellID);
 
             CheckLeftTopToRightBottomDiagnol(lastUsedCellID, opponentValue, ref gridAnalysis);
@@ -219,9 +219,9 @@ namespace General
             return gridAnalysis;
         }
 
-        public GridAnalysis GetRightTopToLeftBottomDiagnolAnalysis(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForDefence GetRightTopToLeftBottomDiagnolAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
-            GridAnalysis gridAnalysis = new GridAnalysis();
+            GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
             gridAnalysis.isCellHasEmptySpace = IsRightTopToLeftBottomDiagnolHasEmptyCell(lastUsedCellID);
 
             CheckRightTopToLeftBottomDiagnol(lastUsedCellID, opponentValue, ref gridAnalysis);
@@ -248,7 +248,7 @@ namespace General
             return false;
         }
 
-        private void CheckRow(int cellID, C.CellState playerValue, ref GridAnalysis gridAnalysis)
+        private void CheckRow(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int rowNumber = cellID / 3;
             int start = rowNumber * 3;
@@ -294,7 +294,7 @@ namespace General
             return false;
         }
 
-        private void CheckColumn(int cellID, C.CellState playerValue, ref GridAnalysis gridAnalysis)
+        private void CheckColumn(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int colNumber = cellID % 3;
             int iterationCOunter = 0;
@@ -338,7 +338,7 @@ namespace General
             return false;
         }
 
-        private void CheckRightTopToLeftBottomDiagnol(int cellID, C.CellState playerValue, ref GridAnalysis gridAnalysis)
+        private void CheckRightTopToLeftBottomDiagnol(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int iterationCOunter = 1;
 
@@ -381,7 +381,7 @@ namespace General
             return false;
         }
 
-        private void CheckLeftTopToRightBottomDiagnol(int cellID, C.CellState playerValue, ref GridAnalysis gridAnalysis)
+        private void CheckLeftTopToRightBottomDiagnol(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int iterationCOunter = 0;
 

@@ -53,11 +53,15 @@ namespace General
             
             bool isEven = UnityEngine.Random.Range(1, 10) % 2 == 0;
             
-            players[0] = new Human("Player ", isEven ? C.PlayerValue.Cross : C.PlayerValue.Circle);
+//            players[0] = new Human("Player ", isEven ? C.PlayerValue.Cross : C.PlayerValue.Circle);
+//            players[1] = new Bot("Bot ", players[0].playerValue == C.PlayerValue.Cross ? C.PlayerValue.Circle : C.PlayerValue.Cross);
+//            this.playerTurnIndex = isEven ? 0 : 1;
+            
+            players[0] = new Human("Player ", C.PlayerValue.Cross);
             players[1] = new Bot("Bot ", players[0].playerValue == C.PlayerValue.Cross ? C.PlayerValue.Circle : C.PlayerValue.Cross);
             
-//            this.playerTurnIndex = isEven ? 0 : 1;
             this.playerTurnIndex = 0;
+            
         }
 
         private void OnCellClick(int cellID)
@@ -69,16 +73,26 @@ namespace General
             EvaluateResult(cellID, tempState);
             ChangePlayerTurn();
             
+            if (!this.resultPopup.activeSelf)
+            {
+                BotTurn(cellID);
+            }
+        }
+
+        private void BotTurn(int cellID)
+        {
             if (this.players[this.playerTurnIndex] is Bot)
             {
                 int turnCellID = ((Bot)this.players[this.playerTurnIndex]).PlayTurn(this.gridHandler, this.totalTurns, cellID);
-                
-                tempState = GetCellStateFromPlayerValue(this.players[this.playerTurnIndex].playerValue);
-                this.gridHandler.UpdateCellState(turnCellID, tempState);
-                this.totalTurns += 1;
+                if (turnCellID != -1)
+                {
+                    C.CellState tempState = GetCellStateFromPlayerValue(this.players[this.playerTurnIndex].playerValue);
+                    this.gridHandler.UpdateCellState(turnCellID, tempState);
+                    this.totalTurns += 1;
 
-                EvaluateResult(turnCellID, tempState);
-                ChangePlayerTurn();
+                    EvaluateResult(turnCellID, tempState);
+                    ChangePlayerTurn();
+                }
             }
         }
 
@@ -118,6 +132,7 @@ namespace General
             DeclareResult(false, string.Empty);
             Reset();
             this.gridHandler.Reset();
+            BotTurn(-1);
         }
 
         private void Reset()

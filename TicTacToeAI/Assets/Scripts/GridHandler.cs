@@ -417,47 +417,49 @@ namespace General
         {
             public bool isCellHasTwoEmptySpace;
             public int proposedCellID;
+            public int playerValueCounter;
         }
 
-        public GridAnalysisForAttack GetRowAnalysisForAttack(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForAttack GetRowAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
-            IsRowHasTwoEmptySpace(lastUsedCellID, ref gridAnalysis);
+            CheckRowForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
         }
 
-        public GridAnalysisForAttack GetColumnAnalysisForAttack(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForAttack GetColumnAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
-            IsColumnHasTwoEmptySpace(lastUsedCellID, ref gridAnalysis);
+            CheckColumnForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
         }
 
-        public GridAnalysisForAttack GetLeftTopToRightBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForAttack GetLeftTopToRightBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
-            IsLeftTopToRightBottomDiagnolHasTwoEmptyCell(lastUsedCellID, ref gridAnalysis);
+            CheckLeftTopToRightBottomDiagnolForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
         }
 
-        public GridAnalysisForAttack GetRightTopToLeftBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState opponentValue)
+        public GridAnalysisForAttack GetRightTopToLeftBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
-            IsRightTopToLeftBottomDiagnolHasTwoEmptyCell(lastUsedCellID, ref gridAnalysis);
+            CheckRightTopToLeftBottomDiagnolForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
         }
 
-        private void IsRowHasTwoEmptySpace(int cellID, ref GridAnalysisForAttack gridAnalysisForAttack)
+        private void CheckRowForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int rowNumber = cellID / 3;
             int start = rowNumber * 3;
             int end = start + 3;
 
             int counter = 0;
+            int playerValueCounter = 0;
 
             for (int i = start; i < end; i++)
             {
@@ -466,12 +468,16 @@ namespace General
                     counter++;
                     gridAnalysisForAttack.proposedCellID = i;
                 }
+                else if (this.cells[i].CellState == playerValue)
+                {
+                    gridAnalysisForAttack.playerValueCounter += 1;
+                }
             }
 
             gridAnalysisForAttack.isCellHasTwoEmptySpace = counter > 1; 
         }
 
-        private void IsColumnHasTwoEmptySpace(int cellID, ref GridAnalysisForAttack gridAnalysisForAttack)
+        private void CheckColumnForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int colNumber = cellID % 3;
             int iterationCOunter = 0;
@@ -485,12 +491,16 @@ namespace General
                     counter++;
                     gridAnalysisForAttack.proposedCellID = i;
                 }
+                else if (this.cells[i].CellState == playerValue)
+                {
+                    gridAnalysisForAttack.playerValueCounter += 1;
+                }
             }
 
             gridAnalysisForAttack.isCellHasTwoEmptySpace = counter > 1; 
         }
 
-        private void IsRightTopToLeftBottomDiagnolHasTwoEmptyCell(int cellID, ref GridAnalysisForAttack gridAnalysisForAttack)
+        private void CheckRightTopToLeftBottomDiagnolForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int iterationCOunter = 1;
 
@@ -504,13 +514,17 @@ namespace General
                     counter++;
                     gridAnalysisForAttack.proposedCellID = index;
                 }
+                else if (this.cells[i].CellState == playerValue)
+                {
+                    gridAnalysisForAttack.playerValueCounter += 1;
+                }
             }
 
             gridAnalysisForAttack.isCellHasTwoEmptySpace = counter > 1; 
         }
 
 
-        private void IsLeftTopToRightBottomDiagnolHasTwoEmptyCell(int cellID, ref GridAnalysisForAttack gridAnalysisForAttack)
+        private void CheckLeftTopToRightBottomDiagnolForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int iterationCOunter = 0;
 
@@ -523,6 +537,10 @@ namespace General
                 {
                     counter++;
                     gridAnalysisForAttack.proposedCellID = index;
+                }
+                else if (this.cells[i].CellState == playerValue)
+                {
+                    gridAnalysisForAttack.playerValueCounter += 1;
                 }
             }
 

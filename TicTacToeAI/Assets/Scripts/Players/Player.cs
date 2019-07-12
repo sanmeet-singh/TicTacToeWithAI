@@ -10,15 +10,18 @@ namespace Players
         public C.PlayerValue playerValue;
         
         public string playerName;
+        
+        public int score;
 
         protected Player()
         {
         }
 
-        public Player(string playerName, C.PlayerValue playerValue)
+        public Player(string playerName, C.PlayerValue playerValue, int score)
         {
             this.playerName = playerName;
-            this.playerValue = playerValue;   
+            this.playerValue = playerValue; 
+            this.score = score;
         }
     }
 }

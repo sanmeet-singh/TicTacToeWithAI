@@ -35,6 +35,7 @@ namespace General
         public GameObject resultPopup;
         
         public Text resultText;
+        public Text scoreText;
         
         private Player[] players;
         
@@ -57,8 +58,8 @@ namespace General
 //            players[1] = new Bot("Bot ", players[0].playerValue == C.PlayerValue.Cross ? C.PlayerValue.Circle : C.PlayerValue.Cross);
 //            this.playerTurnIndex = isEven ? 0 : 1;
             
-            players[0] = new Human("Player ", C.PlayerValue.Cross);
-            players[1] = new Bot("Bot ", players[0].playerValue == C.PlayerValue.Cross ? C.PlayerValue.Circle : C.PlayerValue.Cross);
+            players[0] = new Human("Player ", C.PlayerValue.Cross, 0);
+            players[1] = new Bot("Bot ", players[0].playerValue == C.PlayerValue.Cross ? C.PlayerValue.Circle : C.PlayerValue.Cross, 0);
             
             this.playerTurnIndex = 0;
             
@@ -103,12 +104,18 @@ namespace General
             if (isPlayerWon)
             {
                 DeclareResult(true, this.players[this.playerTurnIndex].playerName + " Won!!!");
+                this.players[this.playerTurnIndex].score += 1;
+                UpdateScoreText();
             }
             else if (this.totalTurns == 9)
             {
                 DeclareResult(true, "Draw!! Try Again!!");
             }
-            
+        }
+
+        private void UpdateScoreText()
+        {
+            this.scoreText.text = this.players[0].score + " - " + this.players[1].score;
         }
 
         private void ChangePlayerTurn()

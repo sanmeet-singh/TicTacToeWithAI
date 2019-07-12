@@ -18,53 +18,92 @@ namespace General
             }
         }
 
+        public void Reset()
+        {
+            for (int i = 0; i < cells.Count; i++)
+            {
+                cells[i].Reset();
+            }
+        }
+
         public void UpdateCellState(int cellID, C.CellState cellState)
         {
             this.cells[cellID].UpdateCellState(cellState);
         }
 
-        public void EvaluateResult(int cellID, C.CellState playerValue)
+        public bool EvaluateResult(int cellID, C.CellState playerValue)
         {
-//            CheckRow(cellID, playerValue);
-//            CheckColumn(cellID, playerValue);
-//            CheckLeftTopToRightBottomDiagnol(cellID, playerValue);
-//            CheckRightTopToLeftBottomDiagnol(cellID, playerValue);
-            
             switch (cellID)
             {
                 case 0:
                 case 8:
-                    CheckRow(cellID, playerValue);
-                    CheckColumn(cellID, playerValue);
-                    CheckLeftTopToRightBottomDiagnol(cellID, playerValue);
+                    if (CheckRow(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckColumn(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckLeftTopToRightBottomDiagnol(cellID, playerValue))
+                    {
+                        return true;
+                    }
                     break;
                     
                 case 1:
                 case 3:
                 case 5:
                 case 7:
-                    CheckRow(cellID, playerValue);
-                    CheckColumn(cellID, playerValue);
+                    if (CheckRow(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckColumn(cellID, playerValue))
+                    {
+                        return true;
+                    }
                     break;
                     
                 case 2:
                 case 6:
-                    Debug.Log("id : " + cellID);
-                    CheckRow(cellID, playerValue);
-                    CheckColumn(cellID, playerValue);
-                    CheckRightTopToLeftBottomDiagnol(cellID, playerValue);
+                    if (CheckRow(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckColumn(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckRightTopToLeftBottomDiagnol(cellID, playerValue))
+                    {
+                        return true;
+                    }
                     break;
                     
                 case 4:
-                    CheckRow(cellID, playerValue);
-                    CheckColumn(cellID, playerValue);
-                    CheckRightTopToLeftBottomDiagnol(cellID, playerValue);
-                    CheckLeftTopToRightBottomDiagnol(cellID, playerValue);
+                    if (CheckRow(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckColumn(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckRightTopToLeftBottomDiagnol(cellID, playerValue))
+                    {
+                        return true;
+                    }
+                    if (CheckLeftTopToRightBottomDiagnol(cellID, playerValue))
+                    {
+                        return true;
+                    }
                     break;
             }
+            return false;
         }
 
-        private void CheckRightTopToLeftBottomDiagnol(int cellID, C.CellState playerValue)
+        private bool CheckRightTopToLeftBottomDiagnol(int cellID, C.CellState playerValue)
         {
             int iterationCOunter = 1;
 
@@ -78,13 +117,10 @@ namespace General
                 }
             }
 
-            if (counter == 3)
-            {
-                Debug.Log("WIN! R to L Diagnol");
-            }
+            return counter == 3;
         }
 
-        private void CheckLeftTopToRightBottomDiagnol(int cellID, C.CellState playerValue)
+        private bool CheckLeftTopToRightBottomDiagnol(int cellID, C.CellState playerValue)
         {
             int iterationCOunter = 0;
 
@@ -98,13 +134,10 @@ namespace General
                 }
             }
 
-            if (counter == 3)
-            {
-                Debug.Log("WIN L to R diagnol");
-            }
+            return counter == 3;
         }
 
-        private void CheckRow(int cellID, C.CellState playerValue)
+        private bool CheckRow(int cellID, C.CellState playerValue)
         {
             int rowNumber = cellID / 3;
             int start = rowNumber * 3;
@@ -120,13 +153,10 @@ namespace General
                 }
             }
             
-            if (counter == 3)
-            {
-                Debug.Log("WIN Row");
-            }
+            return counter == 3;
         }
 
-        private void CheckColumn(int cellID, C.CellState playerValue)
+        private bool CheckColumn(int cellID, C.CellState playerValue)
         {
             int colNumber = cellID % 3;
             int iterationCOunter = 0;
@@ -141,10 +171,7 @@ namespace General
                 }
             }
 
-            if (counter == 3)
-            {
-                Debug.Log("WIN Col");
-            }
+            return counter == 3;
         }
     }
 }

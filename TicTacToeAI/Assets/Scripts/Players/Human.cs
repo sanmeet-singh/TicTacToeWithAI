@@ -11,8 +11,8 @@ namespace Players
         {
         }
 
-        public Human(C.PlayerValue playerValue)
-            : base(playerValue)
+        public Human(string playerName, C.PlayerValue playerValue)
+            : base(playerName, playerValue)
         {
             
         }

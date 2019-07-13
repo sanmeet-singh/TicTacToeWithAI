@@ -5,9 +5,12 @@ using Utils;
 
 namespace Players
 {
+    /// <summary>
+    /// Parent class for all the Players (Human and Bot)
+    /// </summary>
     public class Player
     {
-        public C.PlayerValue playerValue;
+        public C.CellState playerValue;
         
         public string playerName;
         
@@ -17,7 +20,7 @@ namespace Players
         {
         }
 
-        public Player(string playerName, C.PlayerValue playerValue, int score)
+        public Player(string playerName, C.CellState playerValue, int score)
         {
             this.playerName = playerName;
             this.playerValue = playerValue; 

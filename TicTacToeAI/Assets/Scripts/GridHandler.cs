@@ -6,11 +6,18 @@ using Utils;
 
 namespace General
 {
+    /// <summary>
+    /// Grid handler.
+    /// </summary>
     public class GridHandler : MonoBehaviour
     {
         public List<Cell> cells;
         public List<int> emptyCellsIndexes;
 
+        /// <summary>
+        /// Init the specified OnClickCallback.
+        /// </summary>
+        /// <param name="OnClickCallback">On click callback.</param>
         public void Init(Action<int> OnClickCallback)
         {
             this.emptyCellsIndexes = new List<int>(cells.Count);
@@ -21,6 +28,9 @@ namespace General
             }
         }
 
+        /// <summary>
+        /// Reset this instance.
+        /// </summary>
         public void Reset()
         {
             this.emptyCellsIndexes.Clear();
@@ -31,12 +41,23 @@ namespace General
             }
         }
 
+        /// <summary>
+        /// Updates the state of the cell.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="cellState">Cell state.</param>
         public void UpdateCellState(int cellID, C.CellState cellState)
         {
             this.cells[cellID].UpdateCellState(cellState);
             this.emptyCellsIndexes.Remove(cellID);
         }
 
+        /// <summary>
+        /// Evaluates the result.
+        /// </summary>
+        /// <returns><c>true</c>, if result was evaluated, <c>false</c> otherwise.</returns>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         public bool EvaluateResult(int cellID, C.CellState playerValue)
         {
             switch (cellID)
@@ -109,6 +130,12 @@ namespace General
             return false;
         }
 
+        /// <summary>
+        /// Checks the right top to left bottom diagnol.
+        /// </summary>
+        /// <returns><c>true</c>, if right top to left bottom diagnol was checked, <c>false</c> otherwise.</returns>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         private bool CheckRightTopToLeftBottomDiagnol(int cellID, C.CellState playerValue)
         {
             int iterationCOunter = 1;
@@ -126,6 +153,12 @@ namespace General
             return counter == 3;
         }
 
+        /// <summary>
+        /// Checks the left top to right bottom diagnol.
+        /// </summary>
+        /// <returns><c>true</c>, if left top to right bottom diagnol was checked, <c>false</c> otherwise.</returns>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         private bool CheckLeftTopToRightBottomDiagnol(int cellID, C.CellState playerValue)
         {
             int iterationCOunter = 0;
@@ -143,6 +176,12 @@ namespace General
             return counter == 3;
         }
 
+        /// <summary>
+        /// Checks the row.
+        /// </summary>
+        /// <returns><c>true</c>, if row was checked, <c>false</c> otherwise.</returns>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         private bool CheckRow(int cellID, C.CellState playerValue)
         {
             int rowNumber = cellID / 3;
@@ -162,6 +201,13 @@ namespace General
             return counter == 3;
         }
 
+        
+        /// <summary>
+        /// Checks the column.
+        /// </summary>
+        /// <returns><c>true</c>, if column was checked, <c>false</c> otherwise.</returns>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         private bool CheckColumn(int cellID, C.CellState playerValue)
         {
             int colNumber = cellID % 3;
@@ -182,6 +228,9 @@ namespace General
 
         #region Bot Defence AI methods
 
+        /// <summary>
+        /// Grid analysis for defence.
+        /// </summary>
         public struct GridAnalysisForDefence
         {
             public bool isCellHasEmptySpace;
@@ -189,6 +238,12 @@ namespace General
             public int proposedCellID;
         }
 
+        /// <summary>
+        /// Gets the row analysis.
+        /// </summary>
+        /// <returns>The row analysis.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="opponentValue">Opponent value.</param>
         public GridAnalysisForDefence GetRowAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
             GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
@@ -199,6 +254,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Gets the column analysis.
+        /// </summary>
+        /// <returns>The column analysis.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="opponentValue">Opponent value.</param>
         public GridAnalysisForDefence GetColumnAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
             GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
@@ -209,6 +270,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Gets the left top to right bottom diagnol analysis.
+        /// </summary>
+        /// <returns>The left top to right bottom diagnol analysis.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="opponentValue">Opponent value.</param>
         public GridAnalysisForDefence GetLeftTopToRightBottomDiagnolAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
             GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
@@ -219,6 +286,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Gets the right top to left bottom diagnol analysis.
+        /// </summary>
+        /// <returns>The right top to left bottom diagnol analysis.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="opponentValue">Opponent value.</param>
         public GridAnalysisForDefence GetRightTopToLeftBottomDiagnolAnalysis(int lastUsedCellID, C.CellState opponentValue)
         {
             GridAnalysisForDefence gridAnalysis = new GridAnalysisForDefence();
@@ -229,6 +302,11 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Determines whether this instance is row has empty space the specified cellID.
+        /// </summary>
+        /// <returns><c>true</c> if this instance is row has empty space the specified cellID; otherwise, <c>false</c>.</returns>
+        /// <param name="cellID">Cell I.</param>
         private bool IsRowHasEmptySpace(int cellID)
         {
             int rowNumber = cellID / 3;
@@ -248,6 +326,12 @@ namespace General
             return false;
         }
 
+        /// <summary>
+        /// Checks the row.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysis">Grid analysis.</param>
         private void CheckRow(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int rowNumber = cellID / 3;
@@ -276,6 +360,11 @@ namespace General
             gridAnalysis.isOpponentWinning = false;
         }
 
+        /// <summary>
+        /// Determines whether this instance is column has empty space the specified cellID.
+        /// </summary>
+        /// <returns><c>true</c> if this instance is column has empty space the specified cellID; otherwise, <c>false</c>.</returns>
+        /// <param name="cellID">Cell I.</param>
         private bool IsColumnHasEmptySpace(int cellID)
         {
             int colNumber = cellID % 3;
@@ -294,6 +383,13 @@ namespace General
             return false;
         }
 
+        
+        /// <summary>
+        /// Checks the column.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysis">Grid analysis.</param>
         private void CheckColumn(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int colNumber = cellID % 3;
@@ -321,6 +417,12 @@ namespace General
             gridAnalysis.isOpponentWinning = false;
         }
 
+        /// <summary>
+        /// Determines whether this instance is right top to left bottom diagnol has empty cell the specified cellID.
+        /// </summary>
+        /// <returns><c>true</c> if this instance is right top to left bottom diagnol has empty cell the specified cellID;
+        /// otherwise, <c>false</c>.</returns>
+        /// <param name="cellID">Cell I.</param>
         private bool IsRightTopToLeftBottomDiagnolHasEmptyCell(int cellID)
         {
             int iterationCOunter = 1;
@@ -338,6 +440,12 @@ namespace General
             return false;
         }
 
+        /// <summary>
+        /// Checks the right top to left bottom diagnol.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysis">Grid analysis.</param>
         private void CheckRightTopToLeftBottomDiagnol(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int iterationCOunter = 1;
@@ -365,6 +473,12 @@ namespace General
             gridAnalysis.isOpponentWinning = false;
         }
 
+        /// <summary>
+        /// Determines whether this instance is left top to right bottom diagnol has empty cell the specified cellID.
+        /// </summary>
+        /// <returns><c>true</c> if this instance is left top to right bottom diagnol has empty cell the specified cellID;
+        /// otherwise, <c>false</c>.</returns>
+        /// <param name="cellID">Cell I.</param>
         private bool IsLeftTopToRightBottomDiagnolHasEmptyCell(int cellID)
         {
             int iterationCOunter = 0;
@@ -382,6 +496,12 @@ namespace General
             return false;
         }
 
+        /// <summary>
+        /// Checks the left top to right bottom diagnol.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysis">Grid analysis.</param>
         private void CheckLeftTopToRightBottomDiagnol(int cellID, C.CellState playerValue, ref GridAnalysisForDefence gridAnalysis)
         {
             int iterationCOunter = 0;
@@ -413,6 +533,9 @@ namespace General
 
         #region Bot AI for attack
 
+        /// <summary>
+        /// Grid analysis for attack.
+        /// </summary>
         public struct GridAnalysisForAttack
         {
             public bool isCellHasTwoEmptySpace;
@@ -420,6 +543,12 @@ namespace General
             public int playerValueCounter;
         }
 
+        /// <summary>
+        /// Gets the row analysis for attack.
+        /// </summary>
+        /// <returns>The row analysis for attack.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         public GridAnalysisForAttack GetRowAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
@@ -428,6 +557,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Gets the column analysis for attack.
+        /// </summary>
+        /// <returns>The column analysis for attack.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         public GridAnalysisForAttack GetColumnAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
@@ -436,6 +571,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Gets the left top to right bottom diagnol analysis for attack.
+        /// </summary>
+        /// <returns>The left top to right bottom diagnol analysis for attack.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         public GridAnalysisForAttack GetLeftTopToRightBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
@@ -444,6 +585,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Gets the right top to left bottom diagnol analysis for attack.
+        /// </summary>
+        /// <returns>The right top to left bottom diagnol analysis for attack.</returns>
+        /// <param name="lastUsedCellID">Last used cell I.</param>
+        /// <param name="playerValue">Player value.</param>
         public GridAnalysisForAttack GetRightTopToLeftBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
@@ -452,6 +599,12 @@ namespace General
             return gridAnalysis;
         }
 
+        /// <summary>
+        /// Checks the row for attack.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysisForAttack">Grid analysis for attack.</param>
         private void CheckRowForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int rowNumber = cellID / 3;
@@ -477,6 +630,12 @@ namespace General
             gridAnalysisForAttack.isCellHasTwoEmptySpace = counter > 1; 
         }
 
+        /// <summary>
+        /// Checks the column for attack.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysisForAttack">Grid analysis for attack.</param>
         private void CheckColumnForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int colNumber = cellID % 3;
@@ -500,6 +659,12 @@ namespace General
             gridAnalysisForAttack.isCellHasTwoEmptySpace = counter > 1; 
         }
 
+        /// <summary>
+        /// Checks the right top to left bottom diagnol for attack.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysisForAttack">Grid analysis for attack.</param>
         private void CheckRightTopToLeftBottomDiagnolForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int iterationCOunter = 1;
@@ -523,7 +688,12 @@ namespace General
             gridAnalysisForAttack.isCellHasTwoEmptySpace = counter > 1; 
         }
 
-
+        /// <summary>
+        /// Checks the left top to right bottom diagnol for attack.
+        /// </summary>
+        /// <param name="cellID">Cell I.</param>
+        /// <param name="playerValue">Player value.</param>
+        /// <param name="gridAnalysisForAttack">Grid analysis for attack.</param>
         private void CheckLeftTopToRightBottomDiagnolForAttack(int cellID, C.CellState playerValue, ref GridAnalysisForAttack gridAnalysisForAttack)
         {
             int iterationCOunter = 0;

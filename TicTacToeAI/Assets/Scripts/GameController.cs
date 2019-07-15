@@ -55,10 +55,10 @@ namespace General
         /// </summary>
         public void Init()
         {
-            //Initialize Players, ie , Human and Bot.
-            InitPlayers();
             //Initialize all the cells inside the Grid.
             this.gridHandler.Init(OnCellClick);
+            //Initialize Players, ie , Human and Bot.
+            InitPlayers();
         }
 
         /// <summary>
@@ -138,7 +138,6 @@ namespace General
         private void EvaluateResult(int cellID, C.CellState playerValue)
         {
             bool isAnyPlayerWon = this.gridHandler.EvaluateResult(cellID, playerValue);
-            
             //if any player won then decalre result
             if (isAnyPlayerWon)
             {
@@ -149,7 +148,7 @@ namespace General
                 //Update score text
                 UpdateScoreText();
             }
-            else if (this.totalTurns == C.DEFAULT_SCORE)
+            else if (this.totalTurns == C.MAX_TURNS_PER_GAME)
             {
                 //If Max turn is achieved, declare game is draw.
                 DeclareResult(true, "Draw!! Try Again!!");

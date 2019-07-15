@@ -37,7 +37,8 @@ namespace Players
         {
             if (totalTurns < 3)
             {
-                this.lastUsedCellID = gridHandler.emptyCellsIndexes[Random.Range(0, gridHandler.emptyCellsIndexes.Count)];
+                int range = Random.Range(0, gridHandler.emptyCellsIndexes.Count);
+                this.lastUsedCellID = gridHandler.emptyCellsIndexes[range];
                 return this.lastUsedCellID;
             }
             
@@ -75,6 +76,8 @@ namespace Players
             C.CellState tempOpponentValue = this.playerValue == C.CellState.Circle ? C.CellState.Cross : C.CellState.Circle;
             
             int proposedCellID = -1;
+            //cases will be the cell ID which was last used.
+            //Cell ID will decide which row/column/diagnol to check for defence.
             switch (opponentUsedCellID)
             {
                 case 0:
@@ -143,7 +146,6 @@ namespace Players
                     {
                         return proposedCellID;
                     }
-                    
                     proposedCellID = CheckColumnForDefence(gridHandler, totalTurns, opponentUsedCellID, tempOpponentValue);
                     if (proposedCellID != -1)
                     {

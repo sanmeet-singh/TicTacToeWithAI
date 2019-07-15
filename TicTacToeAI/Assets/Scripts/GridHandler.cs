@@ -229,7 +229,10 @@ namespace General
         #region Bot Defence AI methods
 
         /// <summary>
-        /// Grid analysis for defence.
+        /// Grid analysis for defence. Purpose of this struct is to data in single go, so that Bot can decide its best move.
+        /// isCellHasEmptySpace - is there any empty space in Row/Col
+        /// isOpponentWinning - is true when row/col/diagnol has an empty space and 2 cells contain player value (x or o)
+        /// proposedCellID - if above conditions are true, then to defend this cell ID is used.
         /// </summary>
         public struct GridAnalysisForDefence
         {
@@ -240,6 +243,7 @@ namespace General
 
         /// <summary>
         /// Gets the row analysis.
+        /// Information it will return is whether row/col/diagnol has empty space, has 2 cells which have player value and a proposed cell ID
         /// </summary>
         /// <returns>The row analysis.</returns>
         /// <param name="lastUsedCellID">Last used cell I.</param>
@@ -256,6 +260,7 @@ namespace General
 
         /// <summary>
         /// Gets the column analysis.
+        /// Information it will return is whether row/col/diagnol has empty space, has 2 cells which have player value and a proposed cell ID
         /// </summary>
         /// <returns>The column analysis.</returns>
         /// <param name="lastUsedCellID">Last used cell I.</param>
@@ -272,6 +277,7 @@ namespace General
 
         /// <summary>
         /// Gets the left top to right bottom diagnol analysis.
+        ///  Information it will return is whether row/col/diagnol has empty space, has 2 cells which have player value and a proposed cell ID
         /// </summary>
         /// <returns>The left top to right bottom diagnol analysis.</returns>
         /// <param name="lastUsedCellID">Last used cell I.</param>
@@ -288,6 +294,7 @@ namespace General
 
         /// <summary>
         /// Gets the right top to left bottom diagnol analysis.
+        ///  Information it will return is whether row/col/diagnol has empty space, has 2 cells which have player value and a proposed cell ID
         /// </summary>
         /// <returns>The right top to left bottom diagnol analysis.</returns>
         /// <param name="lastUsedCellID">Last used cell I.</param>
@@ -459,7 +466,7 @@ namespace General
                 {
                     counter++;
                 }
-                else if (this.cells[i].CellState == C.CellState.None)
+                else if (this.cells[index].CellState == C.CellState.None)
                 {
                     gridAnalysis.proposedCellID = index;
                 }
@@ -515,7 +522,7 @@ namespace General
                 {
                     counter++;
                 }
-                else if (this.cells[i].CellState == C.CellState.None)
+                else if (this.cells[index].CellState == C.CellState.None)
                 {
                     gridAnalysis.proposedCellID = index;
                 }
@@ -535,6 +542,10 @@ namespace General
 
         /// <summary>
         /// Grid analysis for attack.
+        ///  Purpose of this struct is to data in single go, so that Bot can decide its best move.
+        /// isCellHasEmptySpace - is there are 2 empty space in Row/Col/Diagnal
+        /// playerValueCounter - number of player value in row/col/diagnol.
+        /// proposedCellID - if above conditions are true, then to defend this cell ID is used.
         /// </summary>
         public struct GridAnalysisForAttack
         {
@@ -679,7 +690,7 @@ namespace General
                     counter++;
                     gridAnalysisForAttack.proposedCellID = index;
                 }
-                else if (this.cells[i].CellState == playerValue)
+                else if (this.cells[index].CellState == playerValue)
                 {
                     gridAnalysisForAttack.playerValueCounter += 1;
                 }
@@ -708,7 +719,7 @@ namespace General
                     counter++;
                     gridAnalysisForAttack.proposedCellID = index;
                 }
-                else if (this.cells[i].CellState == playerValue)
+                else if (this.cells[index].CellState == playerValue)
                 {
                     gridAnalysisForAttack.playerValueCounter += 1;
                 }

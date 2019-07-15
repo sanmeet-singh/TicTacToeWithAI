@@ -563,6 +563,7 @@ namespace General
         public GridAnalysisForAttack GetRowAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
+            gridAnalysis.proposedCellID = -1;
             CheckRowForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
@@ -577,6 +578,7 @@ namespace General
         public GridAnalysisForAttack GetColumnAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
+            gridAnalysis.proposedCellID = -1;
             CheckColumnForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
@@ -591,6 +593,7 @@ namespace General
         public GridAnalysisForAttack GetLeftTopToRightBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
+            gridAnalysis.proposedCellID = -1;
             CheckLeftTopToRightBottomDiagnolForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;
@@ -605,6 +608,7 @@ namespace General
         public GridAnalysisForAttack GetRightTopToLeftBottomDiagnolAnalysisForAttack(int lastUsedCellID, C.CellState playerValue)
         {
             GridAnalysisForAttack gridAnalysis = new GridAnalysisForAttack();
+            gridAnalysis.proposedCellID = -1;
             CheckRightTopToLeftBottomDiagnolForAttack(lastUsedCellID, playerValue, ref gridAnalysis);
 
             return gridAnalysis;

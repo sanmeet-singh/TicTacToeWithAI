@@ -27,7 +27,7 @@ namespace Players
         }
 
         /// <summary>
-        /// Plaies the turn.
+        /// Plays the turn.
         /// </summary>
         /// <returns>The turn.</returns>
         /// <param name="gridHandler">Grid handler.</param>

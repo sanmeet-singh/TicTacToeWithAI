@@ -48,6 +48,7 @@ namespace General
         
         private int playerTurnIndex;
         private int totalTurns;
+        private int lastUsedCellID;
 
         /// <summary>
         /// Entry point Initiating game.
@@ -57,6 +58,9 @@ namespace General
         {
             //Initialize all the cells inside the Grid.
             this.gridHandler.Init(OnCellClick);
+            
+            this.lastUsedCellID = -1;
+            
             //Initialize Players, ie , Human and Bot.
             InitPlayers();
         }
@@ -70,7 +74,7 @@ namespace General
             
             bool isEven = UnityEngine.Random.Range(1, 10) % 2 == 0;
             
-            players[0] = new Human("User ", C.CellState.Cross, C.DEFAULT_SCORE);
+            players[0] = new Human("You ", C.CellState.Cross, C.DEFAULT_SCORE);
             players[1] = new Bot("Opponent ", players[0].playerValue == C.CellState.Cross ? C.CellState.Circle : C.CellState.Cross, C.DEFAULT_SCORE);
 
             //Player Turn
@@ -87,20 +91,29 @@ namespace General
         /// <param name="cellID">Cell ID</param>
         private void OnCellClick(int cellID)
         {
+            //is invoking is true when Bot's turn is pending. Check added after intentionally Bot wait time added.
+            if (IsInvoking())
+            {
+                return;
+            }
+            this.lastUsedCellID = cellID;
             C.CellState tempState = this.players[this.playerTurnIndex].playerValue;
             //Update cell with appropriate Image. 
             this.gridHandler.UpdateCellState(cellID, tempState);
             this.totalTurns += 1;
             
             //After every turn check for result
-            EvaluateResult(cellID, tempState);
+            EvaluateResult(this.lastUsedCellID, tempState);
 
             ChangePlayerTurn();
             
             //if result is not declared tell bot to play.
             if (!this.resultPopup.activeSelf)
             {
-                BotTurn(cellID);
+//                BotTurn(cellID);
+//                BotTurn();
+                //Added delay so that user doesn't get confuse with the turns.
+                Invoke("BotTurn", 1f);
             }
         }
 
@@ -108,22 +121,23 @@ namespace General
         /// Let Bot Play the next turn/=.
         /// </summary>
         /// <param name="cellID">Cell I.D which was last used by the user.</param>
-        private void BotTurn(int cellID)
+        private void BotTurn()
         {
             //CHeck if its actually Bot's turn.
             if (this.players[this.playerTurnIndex] is Bot)
             {
                 //Cell ID which is selected by Bot.
-                int turnCellID = ((Bot)this.players[this.playerTurnIndex]).PlayTurn(this.gridHandler, this.totalTurns, cellID);
+                int turnCellID = ((Bot)this.players[this.playerTurnIndex]).PlayTurn(this.gridHandler, this.totalTurns, this.lastUsedCellID);
                 if (turnCellID != -1)
                 {
+                    this.lastUsedCellID = turnCellID;
                     C.CellState tempState = this.players[this.playerTurnIndex].playerValue;
                     //Update cell with appropriate Image. 
                     this.gridHandler.UpdateCellState(turnCellID, tempState);
                     this.totalTurns += 1;
 
                     //Evaluate result
-                    EvaluateResult(turnCellID, tempState);
+                    EvaluateResult(this.lastUsedCellID, tempState);
                     //change player turn
                     ChangePlayerTurn();
                 }
@@ -151,7 +165,7 @@ namespace General
             else if (this.totalTurns == C.MAX_TURNS_PER_GAME)
             {
                 //If Max turn is achieved, declare game is draw.
-                DeclareResult(true, "Draw!! Try Again!!");
+                DeclareResult(true, "Draw!");
             }
         }
 
@@ -206,7 +220,7 @@ namespace General
         {
             if (this.players[this.playerTurnIndex] is Bot)
             {
-                BotTurn(-1);
+                BotTurn();
             }
         }
 
@@ -216,6 +230,7 @@ namespace General
         private void Reset()
         {
             this.totalTurns = 0;
+            this.lastUsedCellID = -1;
             this.playerTurnIndex = UnityEngine.Random.Range(1, 10) % 2 == 0 ? 0 : 1;
         }
 

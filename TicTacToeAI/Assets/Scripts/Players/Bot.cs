@@ -51,8 +51,8 @@ namespace Players
                 return defendCellID;
             }
 
-            //attack
             int attackCellID = Attack(gridHandler);
+            //attack
             if (attackCellID != -1)
             {
                 this.lastUsedCellID = attackCellID;

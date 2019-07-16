@@ -70,8 +70,8 @@ namespace General
             
             bool isEven = UnityEngine.Random.Range(1, 10) % 2 == 0;
             
-            players[0] = new Human("Player ", C.CellState.Cross, C.DEFAULT_SCORE);
-            players[1] = new Bot("Bot ", players[0].playerValue == C.CellState.Cross ? C.CellState.Circle : C.CellState.Cross, C.DEFAULT_SCORE);
+            players[0] = new Human("User ", C.CellState.Cross, C.DEFAULT_SCORE);
+            players[1] = new Bot("Opponent ", players[0].playerValue == C.CellState.Cross ? C.CellState.Circle : C.CellState.Cross, C.DEFAULT_SCORE);
 
             //Player Turn
 //            this.playerTurnIndex = 0;
@@ -142,7 +142,7 @@ namespace General
             if (isAnyPlayerWon)
             {
                 //Declare result
-                DeclareResult(true, this.players[this.playerTurnIndex].playerName + " Won!!!");
+                DeclareResult(true, this.players[this.playerTurnIndex].playerName + " won!");
                 //Update score
                 this.players[this.playerTurnIndex].score += 1;
                 //Update score text
